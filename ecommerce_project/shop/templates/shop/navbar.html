@@ -1,0 +1,71 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+<nav class="navbar navbar-expand-md" style="background: #202124;">
+        <a href="{% url 'shop:home' %}" class="navbar-brand" style="padding-right: 10px;"><i class="material-icons text-success md-48">store</i></a>
+        <ul class="navbar-nav" style="padding-left: 1px;">
+            <li class="nav-item dropdown">
+                <a class="nav-link text-light text-uppercase px-3 dropdown-toggle" style="font-weight: bold;" data-toggle="dropdown" href="">Categories</a>
+                <div class="dropdown">
+                    <div class="dropdown-content">
+                        <a class="dropdown-item" href="{% url 'shop:home' %}">All products</a>
+                        {% for category in links %}
+                            <a class="dropdown-item" href="{{ category.get_url }}">{{ category.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </li>
+
+
+
+
+            <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:home' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="#">Contacts</a></li>
+            <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:product' %}">Product</a></li>
+        </ul>
+        <form class="form-inline" style="padding-left: 750px;">
+            <div class="input-group">
+                <input type="text" placeholder="Search" style="padding-right: 15px;">
+                <div>
+                    <button style="background-color: #00FF00;"><i class="material-icons text-black md-18">search</i></button>
+                </div>
+            </div>
+        </form>
+    </nav>
+
+
+<style>
+    .dropbtn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {background-color: #ddd;}
+
+    .dropdown:hover .dropdown-content {display: block;}
+
+    .dropdown:hover .dropbtn {background-color: #3e8e41;}
+</style>
