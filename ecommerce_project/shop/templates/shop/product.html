@@ -8,32 +8,28 @@
     <title>Product</title>
 </head>
 <body>
+    <a href="{% url 'shop:home' category.slug %}">{{ category }}</a>
     {% block content %}
         <div class="container py-5" style="padding-right: 220px;">
             <div class="row mt-5">
                 <div class="col-10 mx-auto col-md-6 my-3">
-                    <img src="{% static 'images/2017_Bugatti_Chiron.jpg' %}" width="750px" height="400px">
+                    <img src="{{ product.image.url }}" width="750px" height="400px">
                 </div>
             </div>
         </div>
     <center>
         <div class="col-10 mx-auto col-md-6 my-3">
-                <h1 class="product_title">Bugatti</h1>
+                <h1 class="product_title">{{ product.name }}</h1>
                   <h5 class="text-info font-italic mb-4">
-                      $9.99
+                      {{ product.price }}
                   </h5>
                 <p class="product_desc">Product Description</p>
-                <p class="text-justify product_text">TextTextTextTextText
-                TextTextTextTextTextTextTextTextTextTextTextTextTextText
-                TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText
-                TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText
-                TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText
-                TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText
-                    TextTextTextTextTextTextTextTextTextTextTextTextTextText TextText
-                    TextTextTextTextTextTextTextTextTextTextTextTextTextTextTextText
-                    TextTextTextTextTextTextTextTextTextTextTextTextText.
-                </p>
-                <p class="text-justify product_text">Out of Stock</p>
+                <p class="text-justify product_text">{{ product.description }}
+                    {% if product.stock <= 0 %}</p>
+                        <p class="text-justify product_text">Out of Stock</p>
+                    {% else %}
+                        <a href="">Add to Basket</a>
+                    {% endif %}
             </div>
 
 </center>

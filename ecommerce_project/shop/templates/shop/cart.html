@@ -1,0 +1,80 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% include 'shop/navbar.html'%}
+
+{% block content %}
+    <div class="text-center">
+        <br>
+        <div class="text-center product_title">
+            Cart
+        </div>
+    </div>
+    <div class="row mx-auto">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+            <table class="table cart-table">
+                <thead class="cart-thead">
+                <tr>
+                    <th colspan="4">
+                        Your Items
+                    </th>
+                </tr>
+                </thead>
+                {% for i in '123' %}
+                <tr>
+                    <td>
+                        <a href=""><img src="{% static 'images/2017_Bugatti_Chiron.jpg'%}" width="100px" height="100px"</a>Hello
+                    </td>
+                    <td class="text-left">
+                        Car
+                        <br>
+                        Veyron
+                        <br>
+                        Unit Price: $10000000
+                        <br>
+                        Quantity
+                        3
+                    </td>
+                     <td>
+                        $30000000
+                    </td>
+                    <td>
+                        <a href=""><i class="material-icons">add_shopping_cart</i></a>
+                        <a href=""><i class="material-icons">remove</i></a>
+                        <a href=""><i class="material-icons">delete</i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+            <table class="table cart-table">
+                    <thead class="cart-thead">
+                        <tr>
+                            <th colspan="4">
+                                Check Out
+                            </th>
+                        </tr>
+                    </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Please chech your cart before payment.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Your total bilt: <h1>$60.</h1>
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
+            <div class="mx-auto">
+                <a href="">
+                    <button type="button" class="btn btn-lg btn-block bg-dark text-white">Back to products</button>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% include 'shop/footer.html'%}
