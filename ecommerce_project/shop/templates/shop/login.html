@@ -1,0 +1,38 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+
+{% block content %}
+
+<div class="container">
+	<br>
+	<h1 class="product_title text-center">
+		Login or create a new account
+	</h1>
+	<div class="row">
+		<div class="col-12 col-sm-12 col-lg-6 text-center custom_div">
+			<br>
+			<h2 class="product_title">
+				New user
+			</h2>
+			<br>
+			<a href="{% url 'shop:signup' %}" class="btn btn-secondary">Create a new user</a>
+		</div>
+		<div class="col-12 col-sm-12 col-md-12 col-lg-6 bg-light">
+			<br>
+			<h2 class="product_title">
+				Register Users Only
+			</h2>
+			<form method="post" action="{% url 'shop:login' %}">
+				{% csrf_token %}
+				{% bootstrap_form form %}
+				<button type="submit" class="btn btn-secondary">Log in</button>
+			</form>
+		</div>
+	</div>
+	<br>
+	</div>
+<br>
+{% endblock content %}
+

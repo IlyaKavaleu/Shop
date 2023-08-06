@@ -40,6 +40,9 @@ INSTALLED_APPS = [
 
     # myapp
     'shop',
+
+    # install apps
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +69,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'shop.context_processors.menu_links',
+                'shop.context_processors.counter',
             ],
         },
     },
@@ -138,3 +142,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

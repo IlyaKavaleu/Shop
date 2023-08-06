@@ -16,9 +16,24 @@
             </li>
             <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:home' %}">Home</a></li>
             <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="#">Contacts</a></li>
-            <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:product' %}">Product</a></li>
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;">Hello, {{ user.username }}</a></li>
+                    <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:logout' %}">LogOut</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:signup' %}">SignUp</a></li>
+                    <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:login' %}">Login</a></li>
+                {% endif %}
+
+            {% if item_count > 0 %}
+                <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="">
+                    <i class="material-icons">add_shopping_cart</i></a>
+                </li>
+                <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;">({{ item_count }})</a></li>
+            {% endif %}
+                <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;">Empty cart</a></li>
         </ul>
-        <form class="form-inline" style="padding-left: 750px;">
+        <form class="form-inline" style="padding-left: 560px;">
             <div class="input-group">
                 <input type="text" placeholder="Search" style="padding-right: 15px;">
                 <div>

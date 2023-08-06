@@ -16,5 +16,7 @@
     text-transform: uppercase;
     letter-spacing: .2em;
 
-
-
+.error-list li{
+    color: red;
+    font-weight: bold;
+}

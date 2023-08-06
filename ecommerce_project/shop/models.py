@@ -45,6 +45,7 @@ class Product(models.Model):
 
 
 class Cart(models.Model):
+    """Full cart"""
     cart_id = models.CharField(max_length=250, blank=True)
     date_added = models.DateField(auto_now_add=True)
 
@@ -57,6 +58,7 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
+    """Info about one product added in cart"""
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     quantity = models.IntegerField()
