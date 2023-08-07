@@ -17,7 +17,7 @@
 			<p>Please input the following information to create a new account</p>
 			<form method="post">
 				{% csrf_token %}
-				<p>{{ form }}</p>
+				<p>{% bootstrap_form form %}</p>
 				<br>
                 <button type="submit" name="button" class="btn btn-secondary">SignUp</button>
 			</form>

@@ -27,7 +27,7 @@
 				</h2>
 				<form method="post">
 					{% csrf_token %}
-					<p>{{ form }}</p>
+					<p>{% bootstrap_form form %}</p>
 					<br>
 					<button type="submit" class="btn btn-secondary">Log in</button>
 				</form>

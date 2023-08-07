@@ -1,6 +1,6 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
-<nav class="navbar navbar-expand-md" style="background: #202124;">
+<nav class="navbar navbar-expand-md" style="background: #202124; padding-top:20px;">
         <a href="{% url 'shop:home' %}" class="navbar-brand" style="padding-right: 10px;"><i class="material-icons text-success md-48">store</i></a>
         <ul class="navbar-nav" style="padding-left: 1px;">
             <li class="nav-item dropdown">
@@ -17,43 +17,33 @@
             <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:home' %}">Home</a></li>
             <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="#">Contacts</a></li>
 
-                <li class="dropdown">
-                      <button class="dropbtn"><li><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;">Hello, {{ request.user.first_name }}<i style="padding-left:5px;" class="material-icons text-success md-24">person</i></a></button>
-                      <div class="dropdown-content">
-                          {% if request.user.is_authenticated and request.user.first_name %}
-                                <a href="{% url 'shop:logout' %}">Logout</a>
-                          {% else %}
-                                <a href="{% url 'shop:login' %}">Login</a>
-                                <a href="{% url 'shop:signup' %}">SignUp</a>
-                          {% endif %}
-                      </div>
-                </li>
+            <li class="nav-item dropdown" style="padding-left:10px;">
+                <div style="background-color: #202124;"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;">
+                {% if request.user.is_authenticated %}
+                    Hi, {{ request.user.first_name }}</a></div>
+                {% else %}
+                    Authenticated
+                {% endif %}
+                <div class="dropdown-content">
+                    {% if request.user.is_authenticated and request.user.first_name %}
+                    <a href="{% url 'shop:logout' %}">Logout<i style="padding-left:5px;" class="material-icons text-success md-24">exit_to_app</i></a>
+                    {% else %}
+                    <a href="{% url 'shop:login' %}">Login<i style="padding-left:5px;" class="material-icons text-success md-24">login</i></a>
+                    <a href="{% url 'shop:signup' %}">SignUp<i style="padding-left:5px;" class="material-icons text-success md-24">app_registration</i></a>
+                    {% endif %}
+                </div>
             </li>
-
-        <ul class="navbar-nav" style="padding-left: 1px;">
-                        {% if request.user.is_authenticated and request.user.first_name %}
-                            <li class="nav-item dropdown">
-                            </li>
-                            <li class="dropdown-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:logout' %}"><i style="padding-left:5px;" class="material-icons text-success md-24">exit_to_app</i>LogOut</a></li></li>
-                        {% else %}
-                            <li class="dropdown-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:signup' %}">SignUp</a></li>
-                            <li class="dropdown-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:login' %}">Login</a></li>
-                        {% endif %}
-                            </div>
-                        </div>
-                    </ul>
-
-
 
             {% if item_count > 0 %}
                 <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="">
                     <i class="material-icons">add_shopping_cart</i></a>
                 </li>
                 <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;">({{ item_count }})</a></li>
-            {% endif %}
+            {% else %}
                 <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;">Empty cart</a></li>
+            {% endif %}
         </ul>
-        <form class="form-inline" style="padding-left: 520px;">
+        <form class="form-inline" style="padding-left: 550px;">
             <div class="input-group">
                 <input type="text" placeholder="Search" style="padding-right: 15px;">
                 <div>
@@ -66,7 +56,7 @@
 
 <style>
     .dropbtn {
-        background-color: #4CAF50;
+        background-color: #202124;
         color: white;
         padding: 16px;
         font-size: 16px;
@@ -98,5 +88,5 @@
 
     .dropdown:hover .dropdown-content {display: block;}
 
-    .dropdown:hover .dropbtn {background-color: #3e8e41;}
+    .dropdown:hover .dropbtn {background-color: #202124;}
 </style>
