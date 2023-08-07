@@ -4,7 +4,7 @@
         <a href="{% url 'shop:home' %}" class="navbar-brand" style="padding-right: 10px;"><i class="material-icons text-success md-48">store</i></a>
         <ul class="navbar-nav" style="padding-left: 1px;">
             <li class="nav-item dropdown">
-                <a class="nav-link text-light text-uppercase px-3 dropdown-toggle" style="font-weight: bold;" data-toggle="dropdown" href="">Categories</a>
+                <a class="nav-link text-light text-uppercase px-3 dropdown-toggle" style="font-weight: bold;" data-toggle="dropdown">Categories</a>
                 <div class="dropdown">
                     <div class="dropdown-content">
                         <a class="dropdown-item" href="{% url 'shop:home' %}">All products</a>
@@ -17,13 +17,33 @@
             <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:home' %}">Home</a></li>
             <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="#">Contacts</a></li>
 
-                {% if user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;">Hello, {{ user.username }}</a></li>
-                    <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:logout' %}">LogOut</a></li>
-                {% else %}
-                    <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:signup' %}">SignUp</a></li>
-                    <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:login' %}">Login</a></li>
-                {% endif %}
+                <li class="dropdown">
+                      <button class="dropbtn"><li><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;">Hello, {{ request.user.first_name }}<i style="padding-left:5px;" class="material-icons text-success md-24">person</i></a></button>
+                      <div class="dropdown-content">
+                          {% if request.user.is_authenticated and request.user.first_name %}
+                                <a href="{% url 'shop:logout' %}">Logout</a>
+                          {% else %}
+                                <a href="{% url 'shop:login' %}">Login</a>
+                                <a href="{% url 'shop:signup' %}">SignUp</a>
+                          {% endif %}
+                      </div>
+                </li>
+            </li>
+
+        <ul class="navbar-nav" style="padding-left: 1px;">
+                        {% if request.user.is_authenticated and request.user.first_name %}
+                            <li class="nav-item dropdown">
+                            </li>
+                            <li class="dropdown-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:logout' %}"><i style="padding-left:5px;" class="material-icons text-success md-24">exit_to_app</i>LogOut</a></li></li>
+                        {% else %}
+                            <li class="dropdown-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:signup' %}">SignUp</a></li>
+                            <li class="dropdown-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:login' %}">Login</a></li>
+                        {% endif %}
+                            </div>
+                        </div>
+                    </ul>
+
+
 
             {% if item_count > 0 %}
                 <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="">
@@ -33,7 +53,7 @@
             {% endif %}
                 <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;">Empty cart</a></li>
         </ul>
-        <form class="form-inline" style="padding-left: 560px;">
+        <form class="form-inline" style="padding-left: 520px;">
             <div class="input-group">
                 <input type="text" placeholder="Search" style="padding-right: 15px;">
                 <div>

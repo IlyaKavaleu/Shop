@@ -1,3 +1,4 @@
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Product, Category, Cart, CartItem
@@ -96,14 +97,15 @@ def cart_remove_all(request):
 
 def signupView(request):
     if request.method == 'POST':
-        form = SignUpForm(data=request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
             signup_user = User.objects.get(username=username)
             user_group = Group.objects.get(name='User')
             user_group.user_set.add(signup_user)
-            redirect('shop:login')
+            login(request, signup_user)
+            return redirect('shop:home')
     else:
         form = SignUpForm()
     context = {'form': form}
@@ -112,16 +114,12 @@ def signupView(request):
 
 def loginView(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request.POST)
-        if form.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
-            user = authenticate(username=username, password=password)
-            if user:
-                login(request, user)
-                return redirect('shop:home')
-            else:
-                return redirect('shop:signup')
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        if user is not None:
+            login(request, user)
+            return redirect('shop:home')
+        else:
+            return redirect('shop:signup')
     else:
         form = AuthenticationForm()
     context = {'form': form}

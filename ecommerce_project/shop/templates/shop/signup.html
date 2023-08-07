@@ -1,7 +1,5 @@
 {% extends 'shop/base.html' %}
-{% load static %}
 {% load bootstrap4 %}
-
 
 <p>Create new account</p>
 
@@ -17,27 +15,28 @@
 		<div class="col-9 col-sm-9 col-md-6 col-lg-5 mx-auto bg-light">
 			<br>
 			<p>Please input the following information to create a new account</p>
-			<form method="post" action="shop:signup">
+			<form method="post">
 				{% csrf_token %}
-				<p>{% bootstrap_form form %}</p>
-                    <button type="submit" name="button" class="btn btn-secondary">SignUp</button>
+				<p>{{ form }}</p>
+				<br>
+                <button type="submit" name="button" class="btn btn-secondary">SignUp</button>
 			</form>
 		</div>
 	</div>
-{% else %}
-	<div class="mx-auto">
-		<br>
-		<h1 class="product_title text-center">
-			Your account has been successfully created!
-		</h1>
-		<br>
-		<div>
-			<p>Your account has been created and ready to use!
+	{% else %}
+		<div class="mx-auto">
+			<br>
+			<h1 class="product_title text-center">
+				Your account has been successfully created!
+			</h1>
+			<br>
+			<div>
+				<p>Your account has been created and ready to use!
+				<br>
+				<a href="{% url 'shop:home' %}">Continue shopping</a>
+			</div>
 		</div>
-		<br>
-		<a href="{% url 'shop:home' %}">Continue shopping</a>
-	</div>
-{% endif %}
+	{% endif %}
 </div>
 {% endblock content %}
 
