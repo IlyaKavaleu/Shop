@@ -1,6 +1,10 @@
 from django.contrib.auth.views import LoginView
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
+from django.views.generic import ListView
+
+from . import models
 from .models import Product, Category, Cart, CartItem
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import Group, User
@@ -129,3 +133,19 @@ def loginView(request):
 def logoutView(request):
     logout(request)
     return redirect('shop:home')
+
+
+def search(request):
+    query = request.GET.get('q')
+    if query:
+        products = Product.objects.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        )
+    else:
+        products = Product.objects.none()
+
+    context = {
+        'query': query,
+        'products': products,
+    }
+    return render(request, 'shop/search.html', context)
