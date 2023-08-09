@@ -148,4 +148,4 @@ def search(request):
         'query': query,
         'products': products,
     }
-    return render(request, 'shop/search.html', context)
+    return render(request, 'shop/home.html', context)

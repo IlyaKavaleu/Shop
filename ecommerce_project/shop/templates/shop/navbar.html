@@ -44,8 +44,27 @@
                 <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;">Empty cart</a></li>
             {% endif %}
         </ul>
-    <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:search' %}">Search</a></li>
-
+    <li class="nav-item dropdown">
+        <form action="{% url 'shop:search' %}" method="get">
+         <input name="q">What you search?</input>
+         <button class="btn btn-success">What you search</button>
+        </form>
+        <div class="dropdown">
+            <div class="dropdown-content">
+                <h1>Результаты поиска</h1>
+                <p>Ваш запрос: " {{ query }} "</p>
+                    <ul>
+                        {% for product in products %}
+                            {% if product %}
+                                <li class="dropdown-item">{{ product.name }} - {{ product.description }}</li><br>
+                            {% else %}
+                                <p>По вашему запросу ничего не найдено.</p>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+            </div>
+        </div>
+    </li>
     </nav>
 
 
