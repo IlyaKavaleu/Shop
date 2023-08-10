@@ -3,24 +3,33 @@ from django.urls import reverse
 
 
 class Category(models.Model):
+    """Model category"""
     name = models.CharField(max_length=250, unique=True)
     slug = models.SlugField(max_length=250, unique=True)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to='category', blank=True)
 
     class Meta:
+        """In this class,
+         we sort by name and correctly set the name in the admin panel"""
         ordering = ('name',)
         verbose_name = 'Category'
         verbose_name_plural = 'Categories'
 
     def get_url(self):
+        """This function from displays a page with products
+         that are associated with a specific category,
+          associated with the slug field."""
         return reverse('shop:products_by_category', args=[self.slug])
 
     def __str__(self):
+        """Return a string representation of the name
+        for in the admin panel"""
         return self.name
 
 
 class Product(models.Model):
+    """Product model"""
     name = models.CharField(max_length=250, unique=True)
     slug = models.SlugField(max_length=250, unique=True)
     description = models.TextField(blank=True)
@@ -33,14 +42,21 @@ class Product(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
+        """In this class,
+         we sort by name and correctly set the name in the admin panel"""
         ordering = ('name',)
         verbose_name = 'Product'
         verbose_name_plural = 'Product'
 
     def get_url(self):
+        """This function redirects the user to the product page
+        associated with a particular category
+        associated with the field category_slug and product_slug."""
         return reverse('shop:product_detail', args=[self.category.slug, self.slug])
 
     def __str__(self):
+        """Return a string representation of the name
+        for in the admin panel"""
         return self.name
 
 
@@ -50,15 +66,17 @@ class Cart(models.Model):
     date_added = models.DateField(auto_now_add=True)
 
     class Meta:
-        ordering = ['date_added']
+        """In this class, we sort by name"""
         db_table = 'Cart'
 
     def __str__(self):
+        """Return a string representation of the name
+        for in the admin panel"""
         return self.cart_id
 
 
 class CartItem(models.Model):
-    """Info about one product added in cart"""
+    """Information about one object-product added in cart"""
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     quantity = models.IntegerField()
@@ -68,9 +86,12 @@ class CartItem(models.Model):
         db_table = 'CartItem'
 
     def sum_total(self):
+        """Check out the entire cost of this item in the cart"""
         return self.product.price * self.quantity
 
     def __str__(self):
+        """Return a string representation of the name
+        for in the admin panel"""
         return self.product
 
 
