@@ -1,6 +1,10 @@
 from django.db import models
 from django.urls import reverse
 
+from django.core import serializers
+from django.http import JsonResponse
+import json
+
 
 class Category(models.Model):
     """Model category"""
@@ -11,7 +15,7 @@ class Category(models.Model):
 
     class Meta:
         """In this class,
-         we sort by name and correctly set the name in the admin panel"""
+        we sort by name and correctly set the name in the admin panel"""
         ordering = ('name',)
         verbose_name = 'Category'
         verbose_name_plural = 'Categories'
@@ -19,7 +23,7 @@ class Category(models.Model):
     def get_url(self):
         """This function from displays a page with products
          that are associated with a specific category,
-          associated with the slug field."""
+         associated with the slug field."""
         return reverse('shop:products_by_category', args=[self.slug])
 
     def __str__(self):
@@ -59,6 +63,31 @@ class Product(models.Model):
         for in the admin panel"""
         return self.name
 
+    def products_to_json(request):
+        """A script that writes the model to product.json and serves to write
+        the image field into a json-friendly one, since it is not possible to simply load the model into fixtures
+        """
+        products = Product.objects.all()
+
+        products_list = []
+        for product in products:
+            products_list.append({
+                "name": product.name,
+                "slug": product.slug,
+                "description": product.description,
+                "category": product.category.name,
+                "price": str(product.price),
+                "image_url": product.image.url if product.image else None,
+                "stock": product.stock,
+                "available": product.available,
+                "created": product.created.strftime('%Y-%m-%d %H:%M:%S'),
+                "updated": product.updated.strftime('%Y-%m-%d %H:%M:%S'),
+            })
+
+        json_data = json.dumps(products_list, ensure_ascii=False)
+        with open("fixtures/products.json", "w") as json_file:
+            json.dump(json_data, json_file)
+
 
 class Cart(models.Model):
     """Full cart"""
@@ -93,6 +122,3 @@ class CartItem(models.Model):
         """Return a string representation of the name
         for in the admin panel"""
         return self.product
-
-
-

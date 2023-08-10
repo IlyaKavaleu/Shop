@@ -196,3 +196,8 @@ def search(request):
         'products': products,
     }
     return render(request, 'shop/home.html', context)
+
+
+def contacts(request):
+    context = {'contacts': 'Our Contact'}
+    return render(request, 'shop/contacts.html', context)

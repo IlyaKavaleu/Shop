@@ -17,7 +17,7 @@
                 </div>
             </li>
             <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:home' %}">Home</a></li>
-            <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="#">Contacts</a></li>
+            <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:contacts' %}">Contacts</a></li>
 
             <li class="nav-item dropdown" style="padding-left:10px;">
                 <div style="background-color: #202124;"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;">
@@ -53,8 +53,8 @@
         </form>
         <div class="dropdown">
             <div class="dropdown-content">
-                <h3>Результаты поиска</h3>
-                <p>Ваш запрос: " {{ query }} "</p>
+                <h3>Result search</h3>
+                <p>Your query: " {{ query }} "</p>
                     <ul>
                         {% for product in products %}
                             {% if product %}
@@ -62,7 +62,7 @@
                                     <a href="{{ product.get_url }}"><li class="dropdown-item">{{ product.name }} - {{ product.description }}</li><br></a>
                                 </div>
                                     {% else %}
-                                <p>По вашему запросу ничего не найдено.</p>
+                                <p>Nothing found for your request.</p>
                             {% endif %}
                         {% endfor %}
                     </ul>
