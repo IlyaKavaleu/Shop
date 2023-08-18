@@ -7,13 +7,13 @@ from django.views.generic import ListView
 from . import models
 from .models import Product, Category, Cart, CartItem
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.models import Group, User
+from .models import User
 from .forms import SignUpForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from functools import lru_cache
 from django.core.cache import cache
-
+from .forms import EditUserForm
 
 
 def home(request, category_slug=None):
@@ -39,22 +39,6 @@ def home(request, category_slug=None):
     else:
         context = cache.get('products_cache')
     return render(request, 'shop/home.html', context)
-
-
-# def get_cart_from_cache(user_id):
-#     # Получение корзины из кэша
-#     return caching_library.get(f'cart_{user_id}')
-#
-# def update_cart_quantity(user_id, item_id, new_quantity):
-#     # Получение корзины из кэша
-#     cart = get_cart_from_cache(user_id)
-#
-#     # Обновление количества товара
-#     if item_id in cart:
-#         cart[item_id]['quantity'] = new_quantity
-#
-#         # Обновление кэша
-#         caching_library.set(f'cart_{user_id}', cart)
 
 
 def product(request, category_slug, product_slug):
@@ -181,8 +165,8 @@ def signupView(request):
             form.save()
             username = form.cleaned_data.get('username')
             signup_user = User.objects.get(username=username)
-            user_group = Group.objects.get(name='User')
-            user_group.user_set.add(signup_user)
+            # user_group = Group.objects.get(name='User')
+            # user_group.user_set.add(signup_user)
             login(request, signup_user)
             return redirect('shop:home')
     else:
@@ -246,3 +230,36 @@ def search(request):
 def contacts(request):
     context = {'contacts': 'Our Contact'}
     return render(request, 'shop/contacts.html', context)
+
+
+def cabinet(request):
+    my_user = User.objects.filter(username=request.user)
+    context = {'my_user': my_user}
+    return render(request, 'shop/profile.html', context)
+
+
+def edit_profile(request):
+    user = User.objects.get(username=request.user)
+    if request.method == 'POST':
+        form = EditUserForm(instance=user, data=request.POST, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('shop:cabinet')
+    else:
+        form = EditUserForm(instance=user)
+    context = {'user': user, 'form': form}
+    return render(request, 'shop/edit_profile.html', context)
+
+
+#
+# def edit_avatar(request):
+#     if request.method == 'POST':
+#         avatar = User.objects.filter(username=request.user)
+#         avatar.save()
+#     return redirect('shop:cabinet')
+
+
+def delete_avatar(request):
+    image = User.objects.filter(image=request.user)
+    image.save()
+    return redirect('shop:edit_profile')

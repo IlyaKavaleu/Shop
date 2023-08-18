@@ -1,5 +1,5 @@
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" xmlns="http://www.w3.org/1999/html">
 <nav class="navbar navbar-expand-md" style="background: #202124; padding-top:20px;">
         <a href="{% url 'shop:home' %}" class="navbar-brand" style="padding-right: 10px;"><i class="material-icons text-success md-48">store</i></a>
         <ul class="navbar-nav" style="padding-left: 1px;">
@@ -28,12 +28,26 @@
                 {% endif %}
                 <div class="dropdown-content">
                     {% if request.user.is_authenticated and request.user.first_name %}
-                    <a href="{% url 'shop:logout' %}">Logout<i style="padding-left:5px;" class="material-icons text-success md-24">exit_to_app</i></a>
+                        <a href="{% url 'shop:cabinet' %}">Cabinet<i style="padding-left:5px;" class="material-icons text-success md-24">cabinet</i>
+                        </a>
+                        <a href="{% url 'shop:logout' %}">Logout<i style="padding-left:5px;" class="material-icons text-success md-24">exit_to_app</i></a>
                     {% else %}
-                    <a href="{% url 'shop:login' %}">Login<i style="padding-left:5px;" class="material-icons text-success md-24">login</i></a>
-                    <a href="{% url 'shop:signup' %}">SignUp<i style="padding-left:5px;" class="material-icons text-success md-24">app_registration</i></a>
+                        <a href="{% url 'shop:login' %}">Login<i style="padding-left:5px;" class="material-icons text-success md-24">login</i></a>
+                        <a href="{% url 'shop:signup' %}">SignUp<i style="padding-left:5px;" class="material-icons text-success md-24">app_registration</i></a>
                     {% endif %}
                 </div>
+            </li>
+            <li>
+                <div class="col-lg-12 text-center">
+                {% if user.is_authenticated %}
+                    <img width="50px" height="50px"
+                         src="{% if user.image %}
+                                {{ user.image.url }}
+                              {% endif %}"
+                {% else %}
+                {% endif %}
+                     class="img-thumbnail">
+            </div>
             </li>
 
             {% if item_count > 0 %}

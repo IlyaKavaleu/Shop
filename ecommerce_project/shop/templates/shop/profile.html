@@ -1,0 +1,102 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        body {
+            font-family: 'Helvetica', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #fff;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            margin-top: 2rem;
+        }
+
+        .profile {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #333;
+        }
+
+        .username {
+            font-size: 28px;
+            margin-top: 1rem;
+            color: #333;
+        }
+
+        .email {
+            color: #777;
+            margin-top: 0.5rem;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background-color: #555;
+        }
+    </style>
+    <div class="header">
+        <h1>Добро пожаловать в личный кабинет</h1>
+    </div>
+    <div class="container">
+        <div class="profile">
+            <div class="col-lg-12 text-center">
+                <img width="30px" height="30px"
+                     src="{% if user.image %}
+                            {{ user.image.url }}
+                          {% else %}
+                            {% static 'users/default_avatar.png' %}
+                          {% endif %}"
+                     class="img-thumbnail">
+            </div>
+            <h2>{{ user.username }}</h2>
+            <h2>{{ user.first_name }}</h2>
+            <h2>{{ user.last_name }}</h2>
+            <h2>{{ user.email }}</h2>
+        </div>
+        <div class="actions">
+            <a href="{% url 'shop:edit_profile' %}"><button class="action-btn">Редактировать профиль</button></a>
+            <a href="#"><button class="action-btn">Изменить пароль</button></a>
+            <a href="{% url 'shop:logout' %}"><button class="action-btn">Выйти</button></a>
+        </div>
+    </div>
+{% endblock content %}
+
+
