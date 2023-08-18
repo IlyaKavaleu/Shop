@@ -38,16 +38,26 @@
                 </div>
             </li>
             <li>
-                <div class="col-lg-12 text-center">
-                {% if user.is_authenticated %}
-                    <img width="50px" height="50px"
-                         src="{% if user.image %}
-                                {{ user.image.url }}
-                              {% endif %}"
-                {% else %}
-                {% endif %}
-                     class="img-thumbnail">
-            </div>
+                <style>
+                      .round-image {
+                      width: 50px; /* Задайте ширину и высоту по своему усмотрению */
+                      height: 50px;
+                      border-radius: 50%; /* Устанавливаем радиус скругления для создания круглой формы */
+                      overflow: hidden; /* Обрезаем лишнее содержимое за пределами радиуса скругления */
+                    }
+
+                    .round-image img {
+                      width: 100%; /* Чтобы изображение заняло всю площадь родительского элемента */
+                      height: 100%;
+                      object-fit: cover; /* Заполняем область, сохраняя пропорции */
+                    }
+                </style>
+                <div class="round-image">
+                    {% if user.is_authenticated %}
+                        <img src="{% if user.image %}{{ user.image.url }}{% endif %}">
+                    {% else %}
+                    {% endif %}
+                </div>
             </li>
 
             {% if item_count > 0 %}
