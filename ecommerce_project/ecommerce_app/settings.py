@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     # myapp
     'shop',
+    'orders',
 
     # install apps
     'bootstrap4',

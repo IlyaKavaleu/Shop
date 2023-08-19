@@ -72,12 +72,12 @@
         }
     </style>
     <div class="header">
-        <h1>Редактирование личного кабинета</h1>
+        <h1>Editing a personal account</h1>
     </div>
     <div class="container">
         <div class="row">
             <div class="col-lg-20">
-                <h4 class="mt-3 mb-3">Профиль</h4>
+                <center><h4 class="mt-3 mb-3">Account</h4></center>
                 <center><form action="{% url 'shop:edit_profile' %}" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-row">

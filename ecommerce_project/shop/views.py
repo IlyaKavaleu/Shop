@@ -263,3 +263,9 @@ def delete_avatar(request):
     image = User.objects.filter(image=request.user)
     image.save()
     return redirect('shop:edit_profile')
+
+
+def about(request):
+    about_shop = 'About'
+    context = {'about_shop': about_shop}
+    return render(request, 'shop/about.html', context)
