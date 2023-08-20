@@ -3,6 +3,11 @@ from .views import _cart_id
 from django.core.exceptions import ObjectDoesNotExist
 
 
+def carts(request):
+    user = request.user
+    return {'carts': Cart.objects.filter(user=user) if user.is_authenticated else []}
+
+
 def menu_links(request):
     """For convenience, categories have been added to
      context_processors for access wherever they are needed."""

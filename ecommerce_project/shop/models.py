@@ -89,10 +89,15 @@ class Product(models.Model):
             json.dump(json_data, json_file)
 
 
+class User(AbstractUser):
+    image = models.ImageField(upload_to='users/', null=True, blank=True)
+
+
 class Cart(models.Model):
     """Full cart"""
     cart_id = models.CharField(max_length=250, blank=True)
     date_added = models.DateField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         """In this class, we sort by name"""
@@ -122,8 +127,3 @@ class CartItem(models.Model):
         """Return a string representation of the name
         for in the admin panel"""
         return self.product
-
-
-class User(AbstractUser):
-    image = models.ImageField(upload_to='users/', null=True, blank=True)
-
