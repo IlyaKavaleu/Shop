@@ -106,6 +106,9 @@ class Product(models.Model):
         with open("fixtures/products.json", "w") as json_file:
             json.dump(json_data, json_file)
 
+    def sum(self):
+        return self.price * self.stock
+
 
 class User(AbstractUser):
     image = models.ImageField(upload_to='users/', null=True, blank=True)
@@ -116,16 +119,6 @@ class Cart(models.Model):
     cart_id = models.CharField(max_length=250, blank=True)
     date_added = models.DateField(auto_now_add=True)
     user = models.ForeignKey(User, models.CASCADE)
-    #
-    # def stripe_products(self):
-    #     line_items = []
-    #     for cart in self:
-    #         item = {
-    #             'price': cart.product.stripe_products_price_id,
-    #             'quantity': cart.quantity,
-    #         }
-    #         line_items.append(item)
-    #     return line_items
 
     class Meta:
         """In this class, we sort by name"""
@@ -155,3 +148,15 @@ class CartItem(models.Model):
         """Return a string representation of the name
         for in the admin panel"""
         return self.product
+
+    def sum(self):
+        return self.product.price * self.quantity
+
+    def de_json(self):
+        basket_item = {
+            'product_name': self.product.name,
+            'quantity': self.quantity,
+            'price': float(self.product.price),
+            'sum': float(self.sum())
+        }
+        return basket_item

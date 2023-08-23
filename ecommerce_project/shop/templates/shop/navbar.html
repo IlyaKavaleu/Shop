@@ -65,7 +65,7 @@
                 {% endif %}
                 <div class="dropdown-content">
                     {% if request.user.is_authenticated and request.user.first_name %}
-                        <a href="{% url 'shop:cabinet' %}">Cabinet<i style="padding-left:5px;" class="material-icons text-success md-24">cabinet</i>
+                        <a href="{% url 'shop:cabinet' %}">My profile<i style="padding-left:5px;" class="material-icons text-success md-24">cabinet</i>
                         </a>
                         <a href="{% url 'shop:logout' %}">Logout<i style="padding-left:5px;" class="material-icons text-success md-24">exit_to_app</i></a>
                     {% else %}

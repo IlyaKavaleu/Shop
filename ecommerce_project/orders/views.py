@@ -11,11 +11,9 @@ from shop.models import Cart
 from ecommerce_app import settings
 from django.views.generic.base import TemplateView
 from stripe.error import SignatureVerificationError
-
 from shop.views import _cart_id
-
 from shop.models import CartItem
-
+from .models import Order
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
@@ -93,4 +91,5 @@ def stripe_webhook_view(request):
 
 def fulfill_order(session):
     order_id = int(session.metadata.order_id)
-    print('Fulfilling order')
+    order = Order.objects.get(id=order_id)
+    order.update_after_payment()
