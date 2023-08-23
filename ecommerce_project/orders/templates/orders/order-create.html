@@ -1,37 +1,47 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 {% load bootstrap4 %}
+{% load humanize %}
 {% block content %}
     <section>
         <div class="alert alert-warning text-center" role="alert">
             Please fill in your email address.
-        </div><ul class="list-group mb-3">
-                        {% for cart in carts %}
-                            <li class="list-group-item d-flex justify-content-between lh-sm">
-                                <div>
-                                    <h6 class="my-0">{{ cart.product.name }}</h6>
-                                    <small class="text-muted">{{ cart.quantity }} шт.</small>
-                                </div>
-                                <span class="text-muted">{{ cart.sum }} руб.</span>
-                            </li>
-                        {% endfor %}
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Amount payable</span>
-                            <strong>{{ cart.sum_total }} руб.</strong>
-                        </li>
-                    </ul>
+        </div>
+
+
         <div class="container">
             <div class="py-5 text-center">
                 <h1>Checkout order</h1>
             </div>
+
+
             <div class="row g-5">
-                <div class="col-md-5 col-lg-4 order-md-last">
+                <div class="col-md-5 col-lg-4 order-md-last" style="outline: 2px solid #000">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-primary">Cart</span>
-                        <span class="badge badge-primary badge-pill text-white">{{ cart.counter }}</span>
+                        <span class="badge badge-primary badge-pill text-black">{{ counter }}</span>
                     </h4>
-
+                    {% for cart in cart_items %}
+                            <tr>
+                                <td>
+                                    <a href="{{ cart.product.get_url }}">
+                                        <img src="{{ cart.product.image.url }}" width="100px" height="100px"></a>
+                                </td>
+                                <td class="text-left">
+                                    <strong>{{ cart.name }}</strong>
+                                    <br>
+                                    Unit Price: {{ cart.product.price|intcomma  }}
+                                    <br>
+                                    Quantity: {{ cart.quantity }} x {{ cart.product.price }}
+                                </td>
+                                    <br>
+                            </tr>
+                    {% endfor %}
+                    <h5>Full price: ${{ total|intcomma }}</h5>
                 </div>
+
+
+
                 <div class="col-md-7 col-lg-8">
                     <h4 class="mb-3">Delivery address</h4>
                     <form action="{% url 'orders:order_create' %}" method="post">

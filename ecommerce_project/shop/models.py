@@ -1,10 +1,15 @@
+from urllib import request
+
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 from django.urls import reverse
-
 from django.core import serializers
 from django.http import JsonResponse
 import json
+import stripe
+from ecommerce_app import settings
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class Category(models.Model):
@@ -38,8 +43,9 @@ class Product(models.Model):
     slug = models.SlugField(max_length=250, unique=True)
     description = models.TextField(blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=0)
     image = models.ImageField(upload_to='product', blank=True)
+    stripe_products_price_id = models.CharField(max_length=128, null=True, blank=True)
     stock = models.IntegerField()
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -62,6 +68,18 @@ class Product(models.Model):
         """Return a string representation of the name
         for in the admin panel"""
         return self.name
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.stripe_products_price_id:
+            stripe_product_price = self.create_stripe_product_price()
+            self.stripe_products_price_id = stripe_product_price['id']
+        super(Product, self).save(force_insert=False, force_update=False, using=None, update_fields=None)
+
+    def create_stripe_product_price(self):
+        stripe_product = stripe.Product.create(name=self.name)
+        stripe_product_price = stripe.Price.create(
+            product=stripe_product['id'], unit_amount=round(self.price), currency='pln')
+        return stripe_product_price
 
     def products_to_json(request):
         """A script that writes the model to product.json and serves to write
@@ -97,7 +115,17 @@ class Cart(models.Model):
     """Full cart"""
     cart_id = models.CharField(max_length=250, blank=True)
     date_added = models.DateField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, models.CASCADE)
+    #
+    # def stripe_products(self):
+    #     line_items = []
+    #     for cart in self:
+    #         item = {
+    #             'price': cart.product.stripe_products_price_id,
+    #             'quantity': cart.quantity,
+    #         }
+    #         line_items.append(item)
+    #     return line_items
 
     class Meta:
         """In this class, we sort by name"""

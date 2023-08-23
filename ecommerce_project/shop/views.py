@@ -24,20 +24,14 @@ def home(request, category_slug=None):
     records associated with this category, or you can choose everything
     in the store to display
     """
-    products_cache = cache.get('products_cache')
-    if not products_cache:
-        category_page = None
-        products = None
-        if category_slug is not None:
-            category_page = get_object_or_404(Category, slug=category_slug)
-            products = Product.objects.filter(category=category_page, available=True)
-        else:
-            products = Product.objects.all().filter(available=True)
-        context = {'products': products, 'category': category_page}
-
-        cache.set('products_cache', context, 30)
+    category_page = None
+    products = None
+    if category_slug is not None:
+        category_page = get_object_or_404(Category, slug=category_slug)
+        products = Product.objects.filter(category=category_page, available=True)
     else:
-        context = cache.get('products_cache')
+        products = Product.objects.all().filter(available=True)
+    context = {'products': products, 'category': category_page}
     return render(request, 'shop/home.html', context)
 
 
@@ -88,9 +82,9 @@ def add_cart(request, product_id):
     if not update_cache:
         product = Product.objects.get(id=product_id)
         try:
-            cart = Cart.objects.get(cart_id=_cart_id(request))
+            cart = Cart.objects.get(cart_id=_cart_id(request), user=request.user)
         except ObjectDoesNotExist:
-            cart = Cart.objects.create(cart_id=_cart_id(request))
+            cart = Cart.objects.create(cart_id=_cart_id(request), user=request.user)
             cart.save()
         try:
             cart_item = CartItem.objects.get(product=product, cart=cart)
