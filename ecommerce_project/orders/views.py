@@ -83,11 +83,11 @@ class OrderCreateView(CreateView):
         for cart_item in carts:
             line_items.append({
                 'price_data': {
-                    'currency': 'usd',  # Замените на вашу валюту
+                    'currency': 'usd',   # currency
                     'product_data': {
-                        'name': cart_item.product.name,  # Замените на соответствующее поле в модели Product
+                        'name': cart_item.product.name,   # product name
                     },
-                    'unit_amount': int(cart_item.product.price * 100),  # Преобразуйте в центы
+                    'unit_amount': int(cart_item.product.price * 100),  # edit to usd * 100
                 },
                 'quantity': cart_item.quantity,
             })
