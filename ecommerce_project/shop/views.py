@@ -15,7 +15,6 @@ from django.contrib.auth import login, authenticate, logout, update_session_auth
 from django.core.cache import cache
 from .forms import EditUserForm
 from django.contrib.auth.decorators import login_required
-
 from orders.models import Order
 
 
@@ -169,7 +168,7 @@ def signupView(request):
 def loginView(request):
     """Authorization function with checking if this user exists using the
     authenticate function, if successful, redirect to the main page,
-     if unsuccessful, try again"""
+    if unsuccessful, try again"""
     if request.method == 'POST':
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
         if user is not None:
@@ -190,6 +189,9 @@ def logoutView(request):
 
 
 def change_password(request):
+    """Function for change password. There is also a function to change the password 'update_session_auth_hash'
+    and form PasswordChangeForm - which allows you to pull out the encrypted old password, enter a new one and,
+    if successful, save your account with a new password."""
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
@@ -227,12 +229,14 @@ def search(request):
 
 
 def contacts(request):
+    """Display info and feedback"""
     context = {'contacts': 'Our Contact'}
     return render(request, 'shop/contacts.html', context)
 
 
 @login_required
 def cabinet(request):
+    """Function that displays a personal account"""
     my_user = User.objects.filter(username=request.user)
     context = {'my_user': my_user}
     return render(request, 'shop/profile.html', context)
@@ -240,6 +244,7 @@ def cabinet(request):
 
 @login_required
 def edit_profile(request):
+    """Function that changes information about the user in the personal account"""
     user = User.objects.get(username=request.user)
     if request.method == 'POST':
         form = EditUserForm(instance=user, data=request.POST, files=request.FILES)
@@ -252,14 +257,6 @@ def edit_profile(request):
     return render(request, 'shop/edit_profile.html', context)
 
 
-#
-# def edit_avatar(request):
-#     if request.method == 'POST':
-#         avatar = User.objects.filter(username=request.user)
-#         avatar.save()
-#     return redirect('shop:cabinet')
-
-
 @login_required
 def delete_avatar(request):
     image = User.objects.filter(image=request.user)
@@ -268,6 +265,7 @@ def delete_avatar(request):
 
 
 def about(request):
+    """Function that displays information about the service"""
     about_shop = 'About'
     context = {'about_shop': about_shop}
     return render(request, 'shop/about.html', context)

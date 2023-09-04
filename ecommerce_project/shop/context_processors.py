@@ -1,6 +1,7 @@
 from .models import Category, Cart, CartItem
 from django.core.exceptions import ObjectDoesNotExist
 
+
 def carts(request, total=0, counter=0, cart_items=None):
     """The function accepting default arguments for future work with them,
     we try to get the already created basket from the database equal to the

@@ -4,6 +4,7 @@ from .models import Order
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
+    """Display info about order"""
     list_display = ('__str__', 'status')
     fields = ('id', 'created',
               ('first_name', 'last_name'),

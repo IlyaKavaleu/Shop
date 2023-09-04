@@ -22,47 +22,59 @@ stripe_webhook_secret = 'whsec_e1088eafaba7ac245ac80eec91eb7ac32e002cd3d3e5ef935
 
 
 class SuccessTemplateView(TemplateView):
+    """We return a message about the successful creation of the order"""
     template_name = 'orders/order_success.html'
     title = 'Success'
 
 
 class CancelTemplateView(TemplateView):
+    """We return a message about the unsuccessful creation of the order"""
     template_name = 'orders/order_canceled.html'
     title = 'Canceled'
 
 
 class OrderListView(ListView):
+    """Display all orders from DB"""
     template_name = 'orders/orders.html'
     title = 'Orders'
     queryset = Order.objects.all()
     ordering = '-created'
 
     def get_queryset(self):
+        """Display all orders from DB for current user"""
         queryset = super(OrderListView, self).get_queryset()
         return queryset.filter(initiator=self.request.user)
 
 
 class OrderDetailView(DetailView):
+    """Display one order"""
     template_name = 'orders/order.html'
     model = Order
 
     def get_context_data(self, **kwargs):
+        """Display selected order"""
         context = super(OrderDetailView, self).get_context_data(**kwargs)
         context['title'] = f'Store - Order #{self.object.id}'
         return context
 
 
 class OrderCreateView(CreateView):
+    """Create order"""
     template_name = 'orders/order-create.html'
     form_class = OrderForm
     success_url = reverse_lazy('orders:order_create')
     title = 'Order'
 
     def form_valid(self, form):
+        """We do not specify the user in the form, so we will assign the current user here to the order initiator"""
         form.instance.initiator = self.request.user
         return super(OrderCreateView, self).form_valid(form)
 
     def post(self, request, *args, **kwargs):
+        """Get all objects from cart associated with the current user and add to checkout session
+        this objects(conv. to json) -> (currency, product name, unit amount, quantity).
+        Also, when creating an order, we take the id of this order for future update.
+        And return successfully message or unsuccessfully(SuccessTemplateView, CanceledTemplateView)"""
         super(OrderCreateView, self).post(request, *args, **kwargs)
         cart = Cart.objects.get(user=request.user)
         carts = CartItem.objects.filter(cart=cart)
@@ -92,6 +104,7 @@ class OrderCreateView(CreateView):
 
 @csrf_exempt
 def stripe_webhook_view(request):
+    """Stripe function for payment"""
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
     event = None
@@ -116,6 +129,8 @@ def stripe_webhook_view(request):
 
 
 def fulfill_order(session):
+    """This is last function who take order_id from metadata, take this order from DB
+     and update order(update_after_payment)"""
     order_id = int(session.metadata.order_id)
     order = Order.objects.get(id=order_id)
     order.update_after_payment()

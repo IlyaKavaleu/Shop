@@ -152,6 +152,9 @@ class CartItem(models.Model):
         return self.product.name
 
     def de_json(self):
+        """A function that writes the necessary data to the dictionary for
+        further recording in the cart_history field,
+        see Order model"""
         cart_item = {
             'product_name': self.product.name,
             'quantity': self.quantity,

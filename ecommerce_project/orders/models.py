@@ -6,6 +6,7 @@ from shop.models import CartItem
 
 
 class Order(models.Model):
+    """Model Order"""
     CREATED = 0
     PAID = 1
     ON_WAY = 2
@@ -27,9 +28,16 @@ class Order(models.Model):
     initiator = models.ForeignKey(to=User, on_delete=models.CASCADE)
 
     def __str__(self):
+        """Return a string representation of the name
+        for in the admin panel"""
         return f'Order #{self.id}. {self.first_name} {self.last_name}'
 
     def update_after_payment(self):
+        """
+        A function that changes the data in a specific order in the table of orders after payment,
+        we also write the data in json to the cart_history field (see shop.models.de_json), delete the cart and save the state,
+        if the webhook succeeded
+        """
         cart = Cart.objects.get(user=self.initiator)
         carts = CartItem.objects.filter(cart=cart)
         self.status = self.PAID
@@ -40,6 +48,7 @@ class Order(models.Model):
         self.save()
 
     def total_all(self):
+        """Сalculate the total price of the order"""
         total = 0
         for cart_item in self.cart_history.values():
             for cart in cart_item:
