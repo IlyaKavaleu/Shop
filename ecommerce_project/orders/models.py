@@ -1,12 +1,7 @@
 from urllib import request
-
 from django.db import models
-from shop.models import User
-
+from shop.models import User, Product
 from shop.models import Cart
-
-from shop.views import _cart_id
-
 from shop.models import CartItem
 
 
@@ -35,12 +30,18 @@ class Order(models.Model):
         return f'Order #{self.id}. {self.first_name} {self.last_name}'
 
     def update_after_payment(self):
-        cart = Cart.objects.filter(cart_id=_cart_id(request), user=self.initiator)
+        cart = Cart.objects.get(user=self.initiator)
         carts = CartItem.objects.filter(cart=cart)
         self.status = self.PAID
         self.cart_history = {
             'purchased_items': [cart.de_json() for cart in carts],
-            'total_sum': float(carts.sum()),
         }
         cart.delete()
         self.save()
+
+    def total_all(self):
+        total = 0
+        for cart_item in self.cart_history.values():
+            for cart in cart_item:
+                total += cart['price'] * cart['quantity']
+        return total

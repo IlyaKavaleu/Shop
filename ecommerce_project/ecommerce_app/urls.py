@@ -9,7 +9,7 @@ urlpatterns = [
     path('', include('shop.urls')),
     path('orders/', include('orders.urls'), name='orders'),
     path("__debug__/", include("debug_toolbar.urls")),
-    path('webhook/stripe/', stripe_webhook_view, name='stripe_webhook'),
+    path('webhooks/stripe/', stripe_webhook_view, name='stripe_webhook'),
 ]
 
 if settings.DEBUG:

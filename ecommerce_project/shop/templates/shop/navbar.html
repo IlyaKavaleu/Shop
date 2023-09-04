@@ -18,6 +18,7 @@
             </li>
             <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:home' %}">Home</a></li>
             <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'shop:contacts' %}">Contacts</a></li>
+            <li class="nav-item"><a class="nav-link text-light text-uppercase font-weight-bold px-3" style="font-weight: bold;" href="{% url 'orders:orders_list' %}">Orders</a></li>
 
 
             {% if item_count > 0 %}
@@ -32,10 +33,12 @@
             {% endif %}
         </ul>
     <li class="nav-item dropdown">
-        <form action="{% url 'shop:search' %}" method="get">
-         <div class="inline-block"><input name="q" style="padding-right: 3px;"></input>
-         <button class="btn btn-success bg-white"><i class="material-icons text-success md-24">search</i></button></div>
+
+        <form action="{% url 'shop:search' %}" method="get" style="display: flex; align-items: center;">
+          <input name="q" style="padding-right: 3px;" placeholder="Search..." class="mr-2">
+          <button class="btn btn-success bg-white"><i class="material-icons text-success md-24">search</i></button>
         </form>
+
         <div class="dropdown">
             <div class="dropdown-content">
                 <h3>Result search</h3>
@@ -65,7 +68,7 @@
                 {% endif %}
                 <div class="dropdown-content">
                     {% if request.user.is_authenticated and request.user.first_name %}
-                        <a href="{% url 'shop:cabinet' %}">My profile<i style="padding-left:5px;" class="material-icons text-success md-24">cabinet</i>
+                        <a href="{% url 'shop:cabinet' %}">My Profile<i style="padding-left:5px;" class="material-icons text-success md-24">cabinet</i>
                         </a>
                         <a href="{% url 'shop:logout' %}">Logout<i style="padding-left:5px;" class="material-icons text-success md-24">exit_to_app</i></a>
                     {% else %}

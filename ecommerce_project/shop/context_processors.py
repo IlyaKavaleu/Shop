@@ -1,8 +1,5 @@
 from .models import Category, Cart, CartItem
-from .views import _cart_id
 from django.core.exceptions import ObjectDoesNotExist
-from shop.views import _cart_id
-
 
 def carts(request, total=0, counter=0, cart_items=None):
     """The function accepting default arguments for future work with them,
@@ -11,8 +8,8 @@ def carts(request, total=0, counter=0, cart_items=None):
     with the current basket. Next, we get the sum of all the items in the
     basket and the number of products. Throw an exception if it fails."""
     try:
-        cart = Cart.objects.get(cart_id=_cart_id(request))
-        cart_items = CartItem.objects.filter(cart=cart, active=True)
+        cart = Cart.objects.filter(user=request.user.id)
+        cart_items = CartItem.objects.filter(cart=cart[:1], active=True)
         for cart_item in cart_items:
             total += (cart_item.product.price * cart_item.quantity)
             counter += cart_item.quantity
@@ -38,7 +35,7 @@ def counter(request):
         return {}
     else:
         try:
-            cart = Cart.objects.filter(cart_id=_cart_id(request))
+            cart = Cart.objects.filter(user=request.user.id)
             cart_items = CartItem.objects.all().filter(cart=cart[:1])
             for cart_item in cart_items:
                 item_count += cart_item.quantity

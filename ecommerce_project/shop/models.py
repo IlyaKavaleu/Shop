@@ -1,3 +1,4 @@
+import uuid
 from urllib import request
 
 from django.contrib.auth.models import AbstractUser, Group, Permission
@@ -8,6 +9,7 @@ from django.http import JsonResponse
 import json
 import stripe
 from ecommerce_app import settings
+
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -116,7 +118,7 @@ class User(AbstractUser):
 
 class Cart(models.Model):
     """Full cart"""
-    cart_id = models.CharField(max_length=250, blank=True)
+    cart_id = models.AutoField(primary_key=True)
     date_added = models.DateField(auto_now_add=True)
     user = models.ForeignKey(User, models.CASCADE)
 
@@ -127,7 +129,7 @@ class Cart(models.Model):
     def __str__(self):
         """Return a string representation of the name
         for in the admin panel"""
-        return self.cart_id
+        return f"ID: {str(self.cart_id)}"
 
 
 class CartItem(models.Model):
@@ -147,16 +149,13 @@ class CartItem(models.Model):
     def __str__(self):
         """Return a string representation of the name
         for in the admin panel"""
-        return self.product
-
-    def sum(self):
-        return self.product.price * self.quantity
+        return self.product.name
 
     def de_json(self):
-        basket_item = {
+        cart_item = {
             'product_name': self.product.name,
             'quantity': self.quantity,
             'price': float(self.product.price),
-            'sum': float(self.sum())
+            'sum': float(self.sum_total()),
         }
-        return basket_item
+        return cart_item

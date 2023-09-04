@@ -23,7 +23,7 @@ SECRET_KEY = 'django-insecure-(+898c1^1=1=yvka-d9%(!a^2#b^@s_7-wfo8+szkdt85bpr@j
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-DOMAIN_NAME='http://127.0.0.1:8000'
+DOMAIN_NAME = 'http://127.0.0.1:8000'
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -159,8 +159,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'shop.User'
+LOGIN_URL = '/shop/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 
 # Stripe
-STRIPE_PUBLIC_KEY = 'pk_test_51NM4H8BftUB9BIbvetlSFb7N7LjdWJsWSpBYELvh0N2cTmwyPkLPUlQsxvL3Ispvw5fpHhWsXldkdQhenVjqJNyI00B6k6xvIm'
-STRIPE_SECRET_KEY = 'sk_test_51NM4H8BftUB9BIbvsjDWQ3w9ySIjhEgKOLFaOr7adgLbVZtsg6O4xWDdHvJnONmMGQ2LcFh8hW0zyFgyafBAzJeT005klT9eHe'
-STRIPE_WEBHOOK_SECRET = 'whsec_a6ae1b0e8e5682c09cb4b8aa37800d29dcd98fbca8e8a3f31db73f94086a727c'
+STRIPE_PUBLIC_KEY = 'pk_test_51Nlu7CKqkSR9oZm7jlEVy6zFf5QmX4LjkWkAwtyQwJ8TnarG2ssb5NrQEpciwT20XOkvXX9aQrsPvLd3zyJ8hXFF002oozVmr1'
+STRIPE_SECRET_KEY = 'sk_test_51Nlu7CKqkSR9oZm7UZC1nWzgbjhyjp0jqYYnOdNPC7O1sLFEBLC5PSRTUizX6ILl85ouZ63BBD5vHCfxKg95dQcj008XVt3UlC'
+STRIPE_WEBHOOK_SECRET = 'whsec_e1088eafaba7ac245ac80eec91eb7ac32e002cd3d3e5ef9355b65c51f9f6f9c8'
+
