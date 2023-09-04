@@ -23,7 +23,7 @@
                                 <th scope="row">{{ order.id }}</th>
                                 <td>{{ order.get_status_display }}</td>
                                 <td>{{ order.created|naturaltime }}</td>
-                                <td>{{ order.total_all|intcomma }} pln.</td>
+                                <td>{{ order.total_all|intcomma }} usd.</td>
                                 <td>
                                  <a href="{% url 'orders:order' order.id %}">Watch</a>
                                 </td>

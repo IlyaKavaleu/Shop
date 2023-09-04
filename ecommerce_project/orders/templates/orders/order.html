@@ -23,13 +23,13 @@
                                     {{ item.product_name }}
                                 </th>
                                 <td>{{ item.quantity }}</td>
-                                <td>{{ item.price|intcomma }} pln.</td>
-                                <td>{{ item.sum|intcomma }} pln.</td>
+                                <td>{{ item.price|intcomma }} usd.</td>
+                                <td>{{ item.sum|intcomma }} usd.</td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
-                    <p class="float-right h4 mt-3">Total {{ object.total_all|intcomma }} pln.</p>
+                    <p class="float-right h4 mt-3">Total {{ object.total_all|intcomma }} usd.</p>
                 </div>
             </div>
         </div>
