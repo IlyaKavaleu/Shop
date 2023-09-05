@@ -1,5 +1,5 @@
 <h1>Store Server</h1>
-The project for study Django.
+The project on Django.
 
 <h3>Stack:</h3>
 Python
@@ -12,7 +12,7 @@ All actions should be executed from the source directory of the project and only
 
 python3.9 -m venv ../venv
 source ../venv/bin/activate
-Install packages:
+<h3>Install packages:</h3>
 
 pip install --upgrade pip
 pip install -r requirements.txt
