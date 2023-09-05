@@ -15,7 +15,7 @@ All actions should be executed from the source directory of the project and only
 
 <h3>Firstly, create and activate a new virtual environment:</h3>
 
-python3.9 -m venv ../venv
+python3.11 -m venv ../venv
 source ../venv/bin/activate
 <h3>Install packages:</h3>
 
@@ -26,7 +26,7 @@ pip install -r requirements.txt
 Run project dependencies, migrations, fill the database with the fixture data etc.:
 
 
-./manage.py migrate<
+./manage.py migrate
 
 ./manage.py loaddata <path_to_fixture_files>
 
@@ -38,4 +38,4 @@ redis-server
 
 <h3>Run Celery:</h3>
 
-celery -A store worker --loglevel=INFO
+celery -A ecommerce store worker --loglevel=INFO
