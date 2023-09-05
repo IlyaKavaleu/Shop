@@ -20,15 +20,22 @@ source ../venv/bin/activate
 <h3>Install packages:</h3>
 
 pip install --upgrade pip
+
 pip install -r requirements.txt
+
 Run project dependencies, migrations, fill the database with the fixture data etc.:
 
+
 ./manage.py migrate<
+
 ./manage.py loaddata <path_to_fixture_files>
+
 ./manage.py runserver
+
 <h3>Run Redis Server:</h3>
 
 redis-server
+
 <h3>Run Celery:</h3>
 
 celery -A store worker --loglevel=INFO
