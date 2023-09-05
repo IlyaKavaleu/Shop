@@ -3,11 +3,17 @@ The project on Django.
 
 <h3>Stack:</h3>
 
-Python
+- Python
 
-PostgreSQL
+- Django
 
-Redis
+- CSS
+
+- HTML
+
+- PostgreSQL
+
+- Redis
 
 
 Local Developing
@@ -17,6 +23,7 @@ All actions should be executed from the source directory of the project and only
 
 python3.11 -m venv ../venv
 source ../venv/bin/activate
+
 <h3>Install packages:</h3>
 
 pip install --upgrade pip
@@ -36,6 +43,3 @@ Run project dependencies, migrations, fill the database with the fixture data et
 
 redis-server
 
-<h3>Run Celery:</h3>
-
-celery -A ecommerce store worker --loglevel=INFO
