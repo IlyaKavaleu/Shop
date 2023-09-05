@@ -2,9 +2,14 @@
 The project on Django.
 
 <h3>Stack:</h3>
+
 Python
+
 PostgreSQL
+
 Redis
+
+
 Local Developing
 All actions should be executed from the source directory of the project and only after installing all requirements.
 
@@ -16,7 +21,7 @@ source ../venv/bin/activate
 
 pip install --upgrade pip
 pip install -r requirements.txt
-<Run project dependencies, migrations, fill the database with the fixture data etc.:
+Run project dependencies, migrations, fill the database with the fixture data etc.:
 
 ./manage.py migrate<
 ./manage.py loaddata <path_to_fixture_files>
